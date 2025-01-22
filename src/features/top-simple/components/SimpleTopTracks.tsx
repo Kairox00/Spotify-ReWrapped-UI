@@ -9,43 +9,43 @@ export default function SimpleTopTracks() {
   const [loading, setLoading] = useState(true);
   const { timeRange, timeRangeList } = useContext(TopUserDataContext);
   useEffect(() => {
+    setLoading(true);
     const load = async () => {
-      const timer = setTimeout(
-        () => tracks.length > 0 && setLoading(false),
-        1000
-      );
       try {
         const tracks = await getTopTracks(timeRange);
         setTracks(tracks);
+        setLoading(false);
       } catch (error) {
-        clearTimeout(timer);
         console.log(error);
       }
     };
     load();
-  }, [timeRange, tracks]);
+  }, [timeRange]);
 
-  const skeleton = [1, 2, 3, 4, 5, 6].map((t) => (
-    <Stack spacing={2}>
-      <Skeleton
-        key={t}
-        variant="rectangular"
-        width={200}
-        height={200}
-        sx={{ backgroundColor: "grey" }}
-      />
-      <Stack>
-        <Skeleton
-          variant="text"
-          sx={{ fontSize: "2vw", backgroundColor: "grey" }}
-        />
-        <Skeleton
-          variant="text"
-          sx={{ fontSize: "1vw", backgroundColor: "grey" }}
-        />
-      </Stack>
-    </Stack>
-  ));
+  const skeleton = useMemo(
+    () =>
+      [1, 2, 3, 4, 5, 6].map((t) => (
+        <Stack key={t} spacing={2}>
+          <Skeleton
+            variant="rectangular"
+            width={200}
+            height={200}
+            sx={{ backgroundColor: "grey" }}
+          />
+          <Stack>
+            <Skeleton
+              variant="text"
+              sx={{ fontSize: "2vw", backgroundColor: "grey" }}
+            />
+            <Skeleton
+              variant="text"
+              sx={{ fontSize: "1vw", backgroundColor: "grey" }}
+            />
+          </Stack>
+        </Stack>
+      )),
+    []
+  );
 
   const tracksThumbnails = useMemo(
     () =>

@@ -9,26 +9,22 @@ export default function SimpleTopArtists() {
   const [loading, setLoading] = useState(true);
   const { timeRange, timeRangeList } = useContext(TopUserDataContext);
   useEffect(() => {
+    setLoading(true);
     const load = async () => {
-      const timer = setTimeout(
-        () => artists.length > 0 && setLoading(false),
-        1000
-      );
       try {
         const artists = await getTopArtists(timeRange);
         setArtists(artists);
+        setLoading(false);
       } catch (error) {
-        clearTimeout(timer);
         console.log(error);
       }
     };
     load();
-  }, [timeRange, artists]);
+  }, [timeRange]);
 
   const skeleton = [1, 2, 3, 4, 5].map((t) => (
-    <Stack spacing={2}>
+    <Stack key={t} spacing={2}>
       <Skeleton
-        key={t}
         variant="circular"
         width={200}
         height={200}
