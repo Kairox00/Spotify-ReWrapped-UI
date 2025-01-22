@@ -26,7 +26,12 @@ export default function SimpleTopUserData() {
         <Select
           value={timeRange}
           onChange={(e) => setTimeRange(e.target.value)}
-          sx={{ color: "white", backgroundColor: "#18181C" }}
+          sx={{
+            color: "white",
+            backgroundColor: "#18181C",
+            width: "30vw",
+            alignSelf: "flex-end",
+          }}
         >
           {timeRangeList.map((timeRange) => (
             <MenuItem key={timeRange.value} value={timeRange.value}>

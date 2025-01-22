@@ -4,6 +4,6 @@ export const client = axios.create({
   baseURL: "http://localhost:3000",
   headers: {
     Authorization:
-      "BQD_emz9NzNqS99ScD2z0UWY-33YfK_CMc8vyZrt1SDpkohBlZhG7Fe_KsN0a8TvVuyRKOiM9YXzuFFD67IDOpAqqmHGgNehEI-t2rJ3Y5qwhvvGvCV04X2CRmK8MWHfX4gv1B_7jayG6lWMXTVvT7o4sbevMo-vsFXJ75g1wezKveljxU5STyU2ZBk6fB8F0-o1h06iPnVRT-4DjUy_4WROYltfePmroVM",
+      "BQCfUvILgZ1hB7PxagPfcLiqgF7NjmpQyweamhLgV3hF5cX-RzXzbXR1_YZZRlS_17zVk67E1723NauIpU1eQbvCwe4u6al5Xwy7ycuLodyIpDSLiNIbKm-CHufz5NBOExrOC35ZQ1x12QMFxmYGsf5XJwg7lixcZqzIk3DxtC47VAgRphcmVVs5pJkqKML0QvwF5w243-78yyJkYbzWgv7kNwbvS59AtuI",
   },
 });

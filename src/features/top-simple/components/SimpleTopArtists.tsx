@@ -1,5 +1,5 @@
-import { Stack, Typography } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { Skeleton, Stack, Typography } from "@mui/material";
+import { useContext, useEffect, useMemo, useState } from "react";
 import getTopArtists from "../api/Get-top-artists";
 import ArtistThumbnail from "./ArtistThumbnail";
 import { TopUserDataContext } from "../contexts/TopUserDataContext";
@@ -10,12 +10,49 @@ export default function SimpleTopArtists() {
   const { timeRange, timeRangeList } = useContext(TopUserDataContext);
   useEffect(() => {
     const load = async () => {
-      const tracks = await getTopArtists(timeRange);
-      setArtists(tracks);
-      setLoading(false);
+      const timer = setTimeout(
+        () => artists.length > 0 && setLoading(false),
+        1000
+      );
+      try {
+        const artists = await getTopArtists(timeRange);
+        setArtists(artists);
+      } catch (error) {
+        clearTimeout(timer);
+        console.log(error);
+      }
     };
     load();
-  }, [timeRange]);
+  }, [timeRange, artists]);
+
+  const skeleton = [1, 2, 3, 4, 5].map((t) => (
+    <Stack spacing={2}>
+      <Skeleton
+        key={t}
+        variant="circular"
+        width={200}
+        height={200}
+        sx={{ backgroundColor: "grey" }}
+      />
+      <Skeleton
+        variant="text"
+        sx={{ fontSize: "2vw", backgroundColor: "grey" }}
+      />
+    </Stack>
+  ));
+
+  const artistsThumbnails = useMemo(
+    () =>
+      artists.map((artist: any, index) => (
+        <ArtistThumbnail
+          key={artist.id}
+          index={index + 1}
+          name={artist.name}
+          imageUrl={artist.images[0].url}
+        />
+      )),
+    [artists]
+  );
 
   return (
     <Stack alignItems={"flex-start"} spacing={2}>
@@ -28,20 +65,10 @@ export default function SimpleTopArtists() {
           {timeRangeList.find((t) => t.value === timeRange)?.label}
         </Typography>
       </Stack>
-      {loading ? (
-        <Typography>Loading...</Typography>
-      ) : (
-        <Stack direction={"row"} spacing={5} overflow={"scroll"} width={"100%"}>
-          {artists.map((artist: any, index) => (
-            <ArtistThumbnail
-              key={artist.id}
-              index={index + 1}
-              name={artist.name}
-              imageUrl={artist.images[0].url}
-            />
-          ))}
-        </Stack>
-      )}
+
+      <Stack direction={"row"} spacing={5} overflow={"scroll"} width={"100%"}>
+        {loading ? skeleton : artistsThumbnails}
+      </Stack>
     </Stack>
   );
 }
