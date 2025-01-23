@@ -1,8 +1,9 @@
-import { Skeleton, Stack, Typography } from "@mui/material";
+import { Skeleton, Stack } from "@mui/material";
 import { useContext, useEffect, useMemo, useState } from "react";
 import getTopTracks from "../api/getTopTracks";
 import TrackThumbnail from "./TrackThumbnail";
 import { TopUserDataContext } from "../contexts/TopUserDataContext";
+import SectionHeader from "../../../components/SectionHeader";
 
 export default function SimpleTopTracks() {
   const [tracks, setTracks] = useState([]);
@@ -63,15 +64,12 @@ export default function SimpleTopTracks() {
 
   return (
     <Stack alignItems={"flex-start"} spacing={2}>
-      <Stack alignItems={"flex-start"}>
-        <Typography variant="h4" fontWeight={"bold"}>
-          Top Tracks
-        </Typography>
-        <Typography variant="body1">
-          Your top tracks from the{" "}
-          {timeRangeList.find((t) => t.value === timeRange)?.label}
-        </Typography>
-      </Stack>
+      <SectionHeader
+        title={"Top Tracks"}
+        subtitle={`Your top tracks from the past ${
+          timeRangeList.find((t) => t.value === timeRange)?.label
+        }`}
+      />
 
       <Stack direction={"row"} spacing={2} overflow={"scroll"} width={"100%"}>
         {loading ? skeleton : tracksThumbnails}

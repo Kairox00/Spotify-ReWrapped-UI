@@ -1,8 +1,9 @@
-import { Skeleton, Stack, Typography } from "@mui/material";
+import { Skeleton, Stack } from "@mui/material";
 import { useContext, useEffect, useMemo, useState } from "react";
 import getTopArtists from "../api/getTopArtists";
 import ArtistThumbnail from "./ArtistThumbnail";
 import { TopUserDataContext } from "../contexts/TopUserDataContext";
+import SectionHeader from "../../../components/SectionHeader";
 
 export default function SimpleTopArtists() {
   const [artists, setArtists] = useState([]);
@@ -52,15 +53,12 @@ export default function SimpleTopArtists() {
 
   return (
     <Stack alignItems={"flex-start"} spacing={2}>
-      <Stack alignItems={"flex-start"}>
-        <Typography variant="h4" fontWeight={"bold"}>
-          Top Artists
-        </Typography>
-        <Typography variant="body1">
-          Your top artists from the{" "}
-          {timeRangeList.find((t) => t.value === timeRange)?.label}
-        </Typography>
-      </Stack>
+      <SectionHeader
+        title={"Top Artists"}
+        subtitle={`Your top artists from the past ${
+          timeRangeList.find((t) => t.value === timeRange)?.label
+        }`}
+      />
 
       <Stack direction={"row"} spacing={5} overflow={"scroll"} width={"100%"}>
         {loading ? skeleton : artistsThumbnails}

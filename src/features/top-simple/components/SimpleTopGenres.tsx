@@ -1,12 +1,14 @@
-import { Stack, Skeleton, Typography, Chip } from "@mui/material";
+import { Stack, Skeleton, Chip } from "@mui/material";
 import { useState, useContext, useEffect, useMemo } from "react";
 import { TopUserDataContext } from "../contexts/TopUserDataContext";
 import { getTopRecurringElements } from "../utils/frequencyMap";
+import SectionHeader from "../../../components/SectionHeader";
 
 export default function SimpleToGenres() {
   const [genres, setGenres] = useState([]);
   const [loading, setLoading] = useState(true);
   const { timeRange, timeRangeList } = useContext(TopUserDataContext);
+
   useEffect(() => {
     setLoading(true);
     const load = async () => {
@@ -62,15 +64,12 @@ export default function SimpleToGenres() {
 
   return (
     <Stack alignItems={"flex-start"} spacing={2}>
-      <Stack alignItems={"flex-start"}>
-        <Typography variant="h4" fontWeight={"bold"}>
-          Top Genres
-        </Typography>
-        <Typography variant="body1">
-          Your top genres from the{" "}
-          {timeRangeList.find((t) => t.value === timeRange)?.label}
-        </Typography>
-      </Stack>
+      <SectionHeader
+        title={"Top Genres"}
+        subtitle={`Your top genres from the past ${
+          timeRangeList.find((t) => t.value === timeRange)?.label
+        }`}
+      />
 
       <Stack direction={"row"} spacing={2} overflow={"scroll"} width={"100%"}>
         {loading ? skeleton : genresComponents}

@@ -1,9 +1,10 @@
-import { Skeleton, Stack, Typography } from "@mui/material";
+import { Skeleton, Stack } from "@mui/material";
 import { useContext, useEffect, useMemo, useState } from "react";
 import getTopTracks from "../api/getTopTracks";
 import TrackThumbnail from "./TrackThumbnail";
 import { TopUserDataContext } from "../contexts/TopUserDataContext";
 import { getTopRecurringAlbums } from "../utils/frequencyMap";
+import SectionHeader from "../../../components/SectionHeader";
 
 export default function SimpleTopAlbums() {
   const [albums, setAlbums] = useState([]);
@@ -66,17 +67,12 @@ export default function SimpleTopAlbums() {
 
   return (
     <Stack alignItems={"flex-start"} spacing={2}>
-      <Stack alignItems={"flex-start"}>
-        <Typography variant="h4" fontWeight={"bold"}>
-          Top Albums
-        </Typography>
-        <Typography variant="body1">
-          Your top albums from the{" "}
-          {timeRangeList.find((t) => t.value === timeRange)?.label} (based on
-          your top tracks)
-        </Typography>
-      </Stack>
-
+      <SectionHeader
+        title={"Top Albums"}
+        subtitle={`Your top albums from the past
+          ${timeRangeList.find((t) => t.value === timeRange)?.label} (based on
+          your top tracks)`}
+      />
       <Stack direction={"row"} spacing={2} overflow={"scroll"} width={"100%"}>
         {loading ? skeleton : albumThumbnails}
       </Stack>

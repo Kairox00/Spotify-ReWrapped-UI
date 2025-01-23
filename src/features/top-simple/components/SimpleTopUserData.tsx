@@ -11,15 +11,15 @@ export default function SimpleTopUserData() {
   const timeRangeList = [
     {
       value: "short_term",
-      label: "Last 4 weeks",
+      label: "4 weeks",
     },
     {
       value: "medium_term",
-      label: "Last 6 months",
+      label: "6 months",
     },
     {
       value: "long_term",
-      label: "Last 12 months",
+      label: "12 months",
     },
   ];
   return (
