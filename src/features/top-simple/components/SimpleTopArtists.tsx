@@ -1,6 +1,6 @@
 import { Skeleton, Stack, Typography } from "@mui/material";
 import { useContext, useEffect, useMemo, useState } from "react";
-import getTopArtists from "../api/Get-top-artists";
+import getTopArtists from "../api/getTopArtists";
 import ArtistThumbnail from "./ArtistThumbnail";
 import { TopUserDataContext } from "../contexts/TopUserDataContext";
 

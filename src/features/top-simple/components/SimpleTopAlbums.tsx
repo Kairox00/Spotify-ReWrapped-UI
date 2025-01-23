@@ -3,9 +3,10 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import getTopTracks from "../api/getTopTracks";
 import TrackThumbnail from "./TrackThumbnail";
 import { TopUserDataContext } from "../contexts/TopUserDataContext";
+import { getTopRecurringAlbums } from "../utils/frequencyMap";
 
-export default function SimpleTopTracks() {
-  const [tracks, setTracks] = useState([]);
+export default function SimpleTopAlbums() {
+  const [albums, setAlbums] = useState([]);
   const [loading, setLoading] = useState(true);
   const { timeRange, timeRangeList } = useContext(TopUserDataContext);
   useEffect(() => {
@@ -13,7 +14,9 @@ export default function SimpleTopTracks() {
     const load = async () => {
       try {
         const tracks = await getTopTracks(timeRange);
-        setTracks(tracks);
+        const albums = tracks.map((track: any) => track.album);
+        const topAlbums: any = getTopRecurringAlbums(albums);
+        setAlbums(topAlbums);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -47,34 +50,35 @@ export default function SimpleTopTracks() {
     []
   );
 
-  const tracksThumbnails = useMemo(
+  const albumThumbnails = useMemo(
     () =>
-      tracks.map((track: any, index) => (
+      albums.map((album: any, index) => (
         <TrackThumbnail
-          key={track.id}
+          key={album.id}
           index={index + 1}
-          name={track.name}
-          artist={track.artists.map((a: any) => a.name).join(", ")}
-          imageUrl={track.album?.images[0].url}
+          name={album.name}
+          artist={album.artists.map((a: any) => a.name).join(", ")}
+          imageUrl={album.images[0].url}
         />
       )),
-    [tracks]
+    [albums]
   );
 
   return (
     <Stack alignItems={"flex-start"} spacing={2}>
       <Stack alignItems={"flex-start"}>
         <Typography variant="h4" fontWeight={"bold"}>
-          Top Tracks
+          Top Albums
         </Typography>
         <Typography variant="body1">
-          Your top tracks from the{" "}
-          {timeRangeList.find((t) => t.value === timeRange)?.label}
+          Your top albums from the{" "}
+          {timeRangeList.find((t) => t.value === timeRange)?.label} (based on
+          your top tracks)
         </Typography>
       </Stack>
 
       <Stack direction={"row"} spacing={2} overflow={"scroll"} width={"100%"}>
-        {loading ? skeleton : tracksThumbnails}
+        {loading ? skeleton : albumThumbnails}
       </Stack>
     </Stack>
   );

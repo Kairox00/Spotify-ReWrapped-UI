@@ -3,6 +3,8 @@ import SimpleTopArtists from "./SimpleTopArtists";
 import SimpleTopTracks from "./SimpleTopTracks";
 import { useState } from "react";
 import { TopUserDataContext } from "../contexts/TopUserDataContext";
+import SimpleTopGenres from "./SimpleTopGenres";
+import SimpleTopAlbums from "./SimpleTopAlbums";
 
 export default function SimpleTopUserData() {
   const [timeRange, setTimeRange] = useState("short_term");
@@ -40,7 +42,9 @@ export default function SimpleTopUserData() {
           ))}
         </Select>
         <Stack spacing={10}>
+          <SimpleTopGenres />
           <SimpleTopTracks />
+          <SimpleTopAlbums />
           <SimpleTopArtists />
         </Stack>
       </Stack>
