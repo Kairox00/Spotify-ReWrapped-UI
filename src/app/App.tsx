@@ -1,16 +1,18 @@
 import "./App.css";
 import SimpleTopUserData from "../features/top-simple/components/SimpleTopUserData";
-import LoginDialog from "../features/authentication/components/LoginDialog";
+import AuthenticationDialog from "../features/authentication/components/AuthenticationDialog";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Callback from "../features/authentication/components/Callback";
+import ArtistPage from "../features/artist-dashboard/components/ArtistPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginDialog />} />
+        <Route path="/" element={<AuthenticationDialog />} />
         <Route path="/callback" element={<Callback />} />
         <Route path="/top" element={<SimpleTopUserData />} />
+        <Route path="/artist/:id" element={<ArtistPage />} />
       </Routes>
     </BrowserRouter>
   );

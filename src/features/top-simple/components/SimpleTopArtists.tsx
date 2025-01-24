@@ -44,8 +44,7 @@ export default function SimpleTopArtists() {
         <ArtistThumbnail
           key={artist.id}
           index={index + 1}
-          name={artist.name}
-          imageUrl={artist.images[0].url}
+          artistData={artist}
         />
       )),
     [artists]

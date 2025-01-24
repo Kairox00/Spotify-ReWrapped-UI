@@ -1,6 +1,5 @@
 import { useCallback, useEffect } from "react";
 import axios from "axios";
-import { updateAuthorizationHeader } from "../../../lib/api-client";
 
 export default function Callback() {
   const requestCallback = useCallback(async (code: string, state: string) => {
@@ -18,7 +17,6 @@ export default function Callback() {
           expiry_date: new Date().getTime() + response.data.expires_in * 1000,
         })
       );
-      updateAuthorizationHeader();
       window.location.href = "/top";
     } catch (error) {
       console.error(error);

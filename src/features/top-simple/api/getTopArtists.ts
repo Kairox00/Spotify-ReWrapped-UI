@@ -1,7 +1,7 @@
-import { client } from "../../../lib/api-client";
+import { ApiClient } from "../../../lib/api-client";
 export default async function getTopArtists(timeRange: string) {
   try {
-    const res = await client.get("/me/top-artists", {
+    const res = await ApiClient.client().get("/me/top-artists", {
       params: {
         time_range: timeRange,
       },
