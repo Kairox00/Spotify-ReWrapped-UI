@@ -34,6 +34,7 @@ export default function TracksList({ tracks, loading, subtitle = "" }: any) {
       tracks.map((track: any, index: number) => (
         <TrackThumbnail
           key={track.id}
+          id={track.id}
           index={index + 1}
           name={track.name}
           artist={track.artists.map((a: any) => a.name).join(", ")}

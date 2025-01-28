@@ -1,8 +1,21 @@
 import { Stack, Tooltip, Typography } from "@mui/material";
+import { useNavigate } from "react-router";
 
-export default function TrackThumbnail({ name, imageUrl, index, artist }: any) {
+export default function TrackThumbnail({
+  id,
+  name,
+  imageUrl,
+  index,
+  artist,
+}: any) {
+  const navigate = useNavigate();
+  const handleRedirectToArtist = () => {
+    navigate(`/tracks/${id}`, {
+      state: { trackId: id },
+    });
+  };
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} onClick={handleRedirectToArtist}>
       <img alt={name} src={imageUrl} width={"200px"} />
       <Stack>
         <Tooltip title={name} arrow>

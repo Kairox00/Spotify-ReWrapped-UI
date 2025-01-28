@@ -2,7 +2,6 @@ import { MenuItem, Select, Stack } from "@mui/material";
 import ArtistsList from "../../../components/ArtistsList";
 import TracksList from "../../../components/TracksList";
 import { useEffect, useState } from "react";
-import { TopUserDataContext } from "../contexts/TopUserDataContext";
 import AlbumsList from "../../../components/AlbumsList";
 import getTopArtists from "../api/getTopArtists";
 import getTopTracks from "../api/getTopTracks";
@@ -12,7 +11,7 @@ import {
 } from "../utils/frequencyMap";
 import GenresList from "../../../components/GenresList";
 
-export default function SimpleTopUserData() {
+export default function UserTopData() {
   const [timeRange, setTimeRange] = useState("short_term");
   const [tracks, setTracks] = useState([]);
   const [artists, setArtists] = useState([]);
@@ -58,55 +57,53 @@ export default function SimpleTopUserData() {
     );
   }, [timeRange]);
   return (
-    <TopUserDataContext.Provider value={{ timeRange, timeRangeList }}>
-      <Stack>
-        <Select
-          value={timeRange}
-          onChange={(e) => setTimeRange(e.target.value)}
-          sx={{
-            color: "white",
-            backgroundColor: "#18181C",
-            width: "30vw",
-            alignSelf: "flex-end",
-          }}
-        >
-          {timeRangeList.map((timeRange) => (
-            <MenuItem key={timeRange.value} value={timeRange.value}>
-              {timeRange.label}
-            </MenuItem>
-          ))}
-        </Select>
-        <Stack spacing={10}>
-          <GenresList
-            genres={genres}
-            loading={loading}
-            subtitle={`Your top genres for the past ${
-              timeRangeList.find((t) => t.value === timeRange)?.label
-            }`}
-          />
-          <TracksList
-            tracks={tracks}
-            loading={loading}
-            subtitle={`Your top tracks for the past ${
-              timeRangeList.find((t) => t.value === timeRange)?.label
-            }`}
-          />
-          <AlbumsList
-            albums={albums}
-            loading={loading}
-            subtitle={`Your top albums for the past ${
-              timeRangeList.find((t) => t.value === timeRange)?.label
-            }`}
-          />
-          <ArtistsList
-            artists={artists}
-            loading={loading}
-            subtitle={`Your top artists for the past ${
-              timeRangeList.find((t) => t.value === timeRange)?.label
-            }`}
-          />
-        </Stack>
+    <Stack>
+      <Select
+        value={timeRange}
+        onChange={(e) => setTimeRange(e.target.value)}
+        sx={{
+          color: "white",
+          backgroundColor: "#18181C",
+          width: "30vw",
+          alignSelf: "flex-end",
+        }}
+      >
+        {timeRangeList.map((timeRange) => (
+          <MenuItem key={timeRange.value} value={timeRange.value}>
+            {timeRange.label}
+          </MenuItem>
+        ))}
+      </Select>
+      <Stack spacing={10}>
+        <GenresList
+          genres={genres}
+          loading={loading}
+          subtitle={`Your top genres for the past ${
+            timeRangeList.find((t) => t.value === timeRange)?.label
+          }`}
+        />
+        <TracksList
+          tracks={tracks}
+          loading={loading}
+          subtitle={`Your top tracks for the past ${
+            timeRangeList.find((t) => t.value === timeRange)?.label
+          }`}
+        />
+        <AlbumsList
+          albums={albums}
+          loading={loading}
+          subtitle={`Your top albums for the past ${
+            timeRangeList.find((t) => t.value === timeRange)?.label
+          }`}
+        />
+        <ArtistsList
+          artists={artists}
+          loading={loading}
+          subtitle={`Your top artists for the past ${
+            timeRangeList.find((t) => t.value === timeRange)?.label
+          }`}
+        />
       </Stack>
-    </TopUserDataContext.Provider>
+    </Stack>
   );
 }
