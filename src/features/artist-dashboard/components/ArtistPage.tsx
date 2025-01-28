@@ -1,8 +1,8 @@
-import { Chip, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import SectionHeader from "../../../components/SectionHeader";
 import { useLocation } from "react-router";
 import Grid from "@mui/material/Grid2";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import getArtistData from "../api/getArtistData";
 import TracksList from "../../../components/TracksList";
 import AlbumsList from "../../../components/AlbumsList";
@@ -21,25 +21,8 @@ export default function ArtistPage() {
     });
   }, [artistData.id]);
 
-  const genresComponents = useMemo(
-    () =>
-      artistData.genres.map((genre: any, index: number) => (
-        <Chip
-          label={genre}
-          key={index}
-          sx={{
-            backgroundColor: "#18181C",
-            color: "white",
-            fontWeight: "bold",
-            width: "100px",
-          }}
-        />
-      )),
-    [artistData.genres]
-  );
-
   return (
-    <Stack>
+    <Stack spacing={10}>
       <Stack direction={"row"} spacing={3}>
         <img
           style={{ borderRadius: "50%", width: "200px" }}
@@ -50,7 +33,7 @@ export default function ArtistPage() {
           subtitle={`${artistData?.followers.total.toLocaleString()} followers`}
         />
       </Stack>
-      <Stack spacing={4}>
+      <Stack spacing={7}>
         <Grid container spacing={2}>
           <Grid size={3}>
             <SectionHeader title={"0x"} subtitle={"Total times streamed"} />
@@ -71,7 +54,6 @@ export default function ArtistPage() {
             />
           </Grid>
         </Grid>
-        <Stack direction={"row"}>{genresComponents}</Stack>
         <TracksList
           tracks={artistTracks}
           loading={loading}

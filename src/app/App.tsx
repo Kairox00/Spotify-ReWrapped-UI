@@ -4,10 +4,12 @@ import AuthenticationDialog from "../features/authentication/components/Authenti
 import { BrowserRouter, Route, Routes } from "react-router";
 import Callback from "../features/authentication/components/Callback";
 import ArtistPage from "../features/artist-dashboard/components/ArtistPage";
+import ScrollToTop from "../components/ScrollToTop";
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<AuthenticationDialog />} />
         <Route path="/callback" element={<Callback />} />

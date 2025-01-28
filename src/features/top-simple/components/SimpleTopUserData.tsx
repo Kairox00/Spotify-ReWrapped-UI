@@ -3,17 +3,21 @@ import ArtistsList from "../../../components/ArtistsList";
 import TracksList from "../../../components/TracksList";
 import { useEffect, useState } from "react";
 import { TopUserDataContext } from "../contexts/TopUserDataContext";
-import SimpleTopGenres from "./SimpleTopGenres";
 import AlbumsList from "../../../components/AlbumsList";
 import getTopArtists from "../api/getTopArtists";
 import getTopTracks from "../api/getTopTracks";
-import { getTopRecurringAlbums } from "../utils/frequencyMap";
+import {
+  getTopRecurringAlbums,
+  getTopRecurringElements,
+} from "../utils/frequencyMap";
+import GenresList from "../../../components/GenresList";
 
 export default function SimpleTopUserData() {
   const [timeRange, setTimeRange] = useState("short_term");
   const [tracks, setTracks] = useState([]);
   const [artists, setArtists] = useState([]);
   const [albums, setAlbums] = useState([]);
+  const [genres, setGenres] = useState([]);
   const [loading, setLoading] = useState(true);
   const timeRangeList = [
     {
@@ -38,6 +42,17 @@ export default function SimpleTopUserData() {
         const albums = tracks.map((track: any) => track.album);
         const topAlbums: any = getTopRecurringAlbums(albums);
         setAlbums(topAlbums);
+        const allGenres = [
+          "Pop",
+          "Rock",
+          "Metal",
+          "Jazz",
+          "Blues",
+          "Jazz",
+          "Pop",
+        ];
+        const topGenres: any = getTopRecurringElements(allGenres);
+        setGenres(topGenres);
         setLoading(false);
       }
     );
@@ -62,7 +77,13 @@ export default function SimpleTopUserData() {
           ))}
         </Select>
         <Stack spacing={10}>
-          <SimpleTopGenres />
+          <GenresList
+            genres={genres}
+            loading={loading}
+            subtitle={`Your top genres for the past ${
+              timeRangeList.find((t) => t.value === timeRange)?.label
+            }`}
+          />
           <TracksList
             tracks={tracks}
             loading={loading}
