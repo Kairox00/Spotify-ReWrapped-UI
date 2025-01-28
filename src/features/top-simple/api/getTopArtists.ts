@@ -1,4 +1,4 @@
-import { ApiClient } from "../../../lib/api-client";
+import ApiClient from "../../../lib/ApiClient";
 export default async function getTopArtists(timeRange: string) {
   try {
     const res = await ApiClient.client().get("/me/top-artists", {

@@ -9,7 +9,11 @@ export default function ArtistThumbnail({ artistData, index }: any) {
     });
   };
   return (
-    <Stack spacing={2} onClick={handleRedirectToArtist}>
+    <Stack
+      spacing={2}
+      onClick={handleRedirectToArtist}
+      sx={{ cursor: "pointer" }}
+    >
       <img
         style={{ borderRadius: "50%" }}
         alt={artistData.name}

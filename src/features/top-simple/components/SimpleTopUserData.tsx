@@ -1,13 +1,20 @@
 import { MenuItem, Select, Stack } from "@mui/material";
-import SimpleTopArtists from "./SimpleTopArtists";
-import SimpleTopTracks from "./SimpleTopTracks";
-import { useState } from "react";
+import ArtistsList from "../../../components/ArtistsList";
+import TracksList from "../../../components/TracksList";
+import { useEffect, useState } from "react";
 import { TopUserDataContext } from "../contexts/TopUserDataContext";
 import SimpleTopGenres from "./SimpleTopGenres";
-import SimpleTopAlbums from "./SimpleTopAlbums";
+import AlbumsList from "../../../components/AlbumsList";
+import getTopArtists from "../api/getTopArtists";
+import getTopTracks from "../api/getTopTracks";
+import { getTopRecurringAlbums } from "../utils/frequencyMap";
 
 export default function SimpleTopUserData() {
   const [timeRange, setTimeRange] = useState("short_term");
+  const [tracks, setTracks] = useState([]);
+  const [artists, setArtists] = useState([]);
+  const [albums, setAlbums] = useState([]);
+  const [loading, setLoading] = useState(true);
   const timeRangeList = [
     {
       value: "short_term",
@@ -22,6 +29,19 @@ export default function SimpleTopUserData() {
       label: "12 months",
     },
   ];
+  useEffect(() => {
+    setLoading(true);
+    Promise.all([getTopArtists(timeRange), getTopTracks(timeRange)]).then(
+      ([artists, tracks]) => {
+        setArtists(artists);
+        setTracks(tracks);
+        const albums = tracks.map((track: any) => track.album);
+        const topAlbums: any = getTopRecurringAlbums(albums);
+        setAlbums(topAlbums);
+        setLoading(false);
+      }
+    );
+  }, [timeRange]);
   return (
     <TopUserDataContext.Provider value={{ timeRange, timeRangeList }}>
       <Stack>
@@ -43,9 +63,27 @@ export default function SimpleTopUserData() {
         </Select>
         <Stack spacing={10}>
           <SimpleTopGenres />
-          <SimpleTopTracks />
-          <SimpleTopAlbums />
-          <SimpleTopArtists />
+          <TracksList
+            tracks={tracks}
+            loading={loading}
+            subtitle={`Your top tracks for the past ${
+              timeRangeList.find((t) => t.value === timeRange)?.label
+            }`}
+          />
+          <AlbumsList
+            albums={albums}
+            loading={loading}
+            subtitle={`Your top albums for the past ${
+              timeRangeList.find((t) => t.value === timeRange)?.label
+            }`}
+          />
+          <ArtistsList
+            artists={artists}
+            loading={loading}
+            subtitle={`Your top artists for the past ${
+              timeRangeList.find((t) => t.value === timeRange)?.label
+            }`}
+          />
         </Stack>
       </Stack>
     </TopUserDataContext.Provider>

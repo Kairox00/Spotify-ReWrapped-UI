@@ -1,5 +1,5 @@
 import axios from "axios";
-export class ApiClient {
+export default class ApiClient {
   public static client() {
     const token = JSON.parse(localStorage.getItem("RW_Token") as string) || {};
     const access_token = token["access_token"] || "";

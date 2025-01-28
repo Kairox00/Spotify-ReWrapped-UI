@@ -1,28 +1,9 @@
 import { Skeleton, Stack } from "@mui/material";
-import { useContext, useEffect, useMemo, useState } from "react";
-import getTopTracks from "../api/getTopTracks";
+import { useMemo } from "react";
 import TrackThumbnail from "./TrackThumbnail";
-import { TopUserDataContext } from "../contexts/TopUserDataContext";
-import SectionHeader from "../../../components/SectionHeader";
+import SectionHeader from "./SectionHeader";
 
-export default function SimpleTopTracks() {
-  const [tracks, setTracks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const { timeRange, timeRangeList } = useContext(TopUserDataContext);
-  useEffect(() => {
-    setLoading(true);
-    const load = async () => {
-      try {
-        const tracks = await getTopTracks(timeRange);
-        setTracks(tracks);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    load();
-  }, [timeRange]);
-
+export default function TracksList({ tracks, loading, subtitle = "" }: any) {
   const skeleton = useMemo(
     () =>
       [1, 2, 3, 4, 5, 6].map((t) => (
@@ -50,7 +31,7 @@ export default function SimpleTopTracks() {
 
   const tracksThumbnails = useMemo(
     () =>
-      tracks.map((track: any, index) => (
+      tracks.map((track: any, index: number) => (
         <TrackThumbnail
           key={track.id}
           index={index + 1}
@@ -64,13 +45,7 @@ export default function SimpleTopTracks() {
 
   return (
     <Stack alignItems={"flex-start"} spacing={2}>
-      <SectionHeader
-        title={"Top Tracks"}
-        subtitle={`Your top tracks from the past ${
-          timeRangeList.find((t) => t.value === timeRange)?.label
-        }`}
-      />
-
+      <SectionHeader title={"Top Tracks"} subtitle={subtitle} />
       <Stack direction={"row"} spacing={2} overflow={"scroll"} width={"100%"}>
         {loading ? skeleton : tracksThumbnails}
       </Stack>

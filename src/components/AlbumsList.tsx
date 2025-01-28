@@ -1,31 +1,13 @@
 import { Skeleton, Stack } from "@mui/material";
-import { useContext, useEffect, useMemo, useState } from "react";
-import getTopTracks from "../api/getTopTracks";
+import { useMemo } from "react";
 import TrackThumbnail from "./TrackThumbnail";
-import { TopUserDataContext } from "../contexts/TopUserDataContext";
-import { getTopRecurringAlbums } from "../utils/frequencyMap";
-import SectionHeader from "../../../components/SectionHeader";
+import SectionHeader from "./SectionHeader";
 
-export default function SimpleTopAlbums() {
-  const [albums, setAlbums] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const { timeRange, timeRangeList } = useContext(TopUserDataContext);
-  useEffect(() => {
-    setLoading(true);
-    const load = async () => {
-      try {
-        const tracks = await getTopTracks(timeRange);
-        const albums = tracks.map((track: any) => track.album);
-        const topAlbums: any = getTopRecurringAlbums(albums);
-        setAlbums(topAlbums);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    load();
-  }, [timeRange]);
-
+export default function AlbumsList({
+  albums = [],
+  loading,
+  subtitle = "",
+}: any) {
   const skeleton = useMemo(
     () =>
       [1, 2, 3, 4, 5, 6].map((t) => (
@@ -53,7 +35,7 @@ export default function SimpleTopAlbums() {
 
   const albumThumbnails = useMemo(
     () =>
-      albums.map((album: any, index) => (
+      albums.map((album: any, index: number) => (
         <TrackThumbnail
           key={album.id}
           index={index + 1}
@@ -67,12 +49,7 @@ export default function SimpleTopAlbums() {
 
   return (
     <Stack alignItems={"flex-start"} spacing={2}>
-      <SectionHeader
-        title={"Top Albums"}
-        subtitle={`Your top albums from the past
-          ${timeRangeList.find((t) => t.value === timeRange)?.label} (based on
-          your top tracks)`}
-      />
+      <SectionHeader title={"Top Albums"} subtitle={subtitle} />
       <Stack direction={"row"} spacing={2} overflow={"scroll"} width={"100%"}>
         {loading ? skeleton : albumThumbnails}
       </Stack>
