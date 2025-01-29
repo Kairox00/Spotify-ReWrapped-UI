@@ -8,7 +8,13 @@ export default async function login() {
       window.location = res.data.oauthUrl;
       return;
     } else {
-      localStorage.setItem("RW_Token", JSON.stringify(res.data));
+      localStorage.setItem(
+        "RW_Token",
+        JSON.stringify({
+          ...res.data,
+          expiry_date: new Date().getTime() + res.data.expires_in * 1000,
+        })
+      );
       window.location.href = "/top";
     }
   } catch (error) {

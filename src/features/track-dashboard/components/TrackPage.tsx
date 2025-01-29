@@ -5,10 +5,12 @@ import getTrackData from "../api/getTrackData";
 import AlbumsList from "../../../components/AlbumsList";
 import SectionHeader from "../../../components/SectionHeader";
 import { formatTime } from "../../user-dashboard/utils/timeFormatter";
+import AudioFeatures from "./AudioFeatures";
 
 export default function TrackPage() {
   const location = useLocation();
-  const { trackId } = location.state;
+  const trackId =
+    location.state?.trackId || location.pathname?.split("/").pop();
   const [trackData, setTrackData]: any = useState({ artists: [] });
   const [loading, setLoading] = useState(true);
 
@@ -56,6 +58,10 @@ export default function TrackPage() {
           albums={trackData?.album ? [trackData.album] : []}
           loading={loading}
           subtitle={`Albums featuring ${trackData.name}`}
+        />
+        <AudioFeatures
+          audioFeatures={trackData?.audioFeatures?.item}
+          loading={loading}
         />
       </Stack>
     </Stack>

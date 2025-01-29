@@ -15,7 +15,11 @@ export default function TrackThumbnail({
     });
   };
   return (
-    <Stack spacing={2} onClick={handleRedirectToArtist}>
+    <Stack
+      spacing={2}
+      onClick={handleRedirectToArtist}
+      sx={{ cursor: "pointer" }}
+    >
       <img alt={name} src={imageUrl} width={"200px"} />
       <Stack>
         <Tooltip title={name} arrow>
