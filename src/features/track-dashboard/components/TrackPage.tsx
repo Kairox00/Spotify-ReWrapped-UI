@@ -24,10 +24,7 @@ export default function TrackPage() {
   return (
     <Stack spacing={10} width={"98vw"}>
       <Stack direction={"row"} spacing={3}>
-        <img
-          style={{ borderRadius: "50%", width: "200px" }}
-          src={trackData?.album?.images[0].url}
-        />
+        <img style={{ width: "200px" }} src={trackData?.album?.images[0].url} />
         <SectionHeader
           title={trackData?.name}
           subtitle={trackData?.artists?.map((a: any) => a.name).join(", ")}

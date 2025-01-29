@@ -5,6 +5,7 @@ import HearingDisabledIcon from "@mui/icons-material/HearingDisabled";
 import { useMemo } from "react";
 import ValueCard from "./ValueCard";
 import FeaturesRadarChart from "./FeaturesRadarChart";
+import { snakeToPascal } from "../../user-dashboard/utils/textFormatter";
 
 export default function AudioFeatures({ audioFeatures = {}, loading }: any) {
   const linearFeaturesComponents = useMemo(() => {
@@ -23,7 +24,7 @@ export default function AudioFeatures({ audioFeatures = {}, loading }: any) {
     return features.map((feature) => (
       <Grid key={feature} size={6}>
         <StaticLinearProgress
-          title={feature}
+          title={snakeToPascal(feature)}
           value={featuresValues[feature] * 100}
         />
       </Grid>
@@ -32,10 +33,30 @@ export default function AudioFeatures({ audioFeatures = {}, loading }: any) {
 
   const valueFeaturesComponents = useMemo(() => {
     const features = ["loudness", "key", "mode", "time_signature", "tempo"];
+    const notes = [
+      "C",
+      "C#",
+      "D",
+      "D#",
+      "E",
+      "F",
+      "F#",
+      "G",
+      "G#",
+      "A",
+      "A#",
+      "B",
+    ];
     const featuresValues = { ...audioFeatures };
+    featuresValues["key"] = notes[featuresValues["key"]];
+    featuresValues["time_signature"] = `${featuresValues["time_signature"]}/4`;
+    featuresValues["mode"] = featuresValues["mode"] ? "Major" : "Minor";
     return features.map((feature) => (
       <Grid key={feature} size={4}>
-        <ValueCard title={feature} value={featuresValues[feature]} />
+        <ValueCard
+          title={snakeToPascal(feature)}
+          value={featuresValues[feature]}
+        />
       </Grid>
     ));
   }, [audioFeatures]);
@@ -60,10 +81,10 @@ export default function AudioFeatures({ audioFeatures = {}, loading }: any) {
       <Grid container>
         <Grid size={6}>
           <Stack spacing={6}>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} alignItems={"center"}>
               {linearFeaturesComponents}
             </Grid>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} alignItems={"center"}>
               {valueFeaturesComponents}
             </Grid>
           </Stack>

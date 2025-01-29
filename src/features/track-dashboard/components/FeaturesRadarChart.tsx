@@ -16,7 +16,10 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+import { useTheme } from "@mui/material";
+import { snakeToPascal } from "../../user-dashboard/utils/textFormatter";
 export default function FeaturesRadarChart({ audioFeatures }: any) {
+  const theme = useTheme();
   const selectedFeaturesNames = [
     "acousticness",
     "danceability",
@@ -33,15 +36,15 @@ export default function FeaturesRadarChart({ audioFeatures }: any) {
       return obj;
     }, {});
   const data = {
-    labels: Object.keys(selectedFeatures),
+    labels: Object.keys(selectedFeatures).map((key) => snakeToPascal(key)),
     datasets: [
       {
         label: "",
         data: Object.values(selectedFeatures),
         fill: true,
-        backgroundColor: "rgb(30, 215, 96, 0.2)",
-        borderColor: "rgb(30, 215, 96)",
-        pointBackgroundColor: "rgb(30, 215, 96)",
+        backgroundColor: theme.palette.secondary.light,
+        borderColor: theme.palette.secondary.main,
+        pointBackgroundColor: theme.palette.secondary.main,
       },
     ],
   };
@@ -62,15 +65,16 @@ export default function FeaturesRadarChart({ audioFeatures }: any) {
         beginAtZero: true,
         grid: {
           circular: true,
-          color: "rgb(23, 25, 31)",
+          color: theme.palette.primary.main,
         },
         angleLines: {
-          color: "rgb(23, 25, 31)",
+          color: theme.palette.primary.main,
         },
         pointLabels: {
-          color: "rgb(163, 163, 163)",
+          color: theme.palette.primary.light,
           font: {
             size: 12,
+            weight: "bold",
           },
         },
         ticks: {
@@ -80,5 +84,5 @@ export default function FeaturesRadarChart({ audioFeatures }: any) {
       },
     },
   };
-  return <Radar data={data} options={options} />;
+  return <Radar data={data} options={options as any} />;
 }
