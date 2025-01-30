@@ -37,11 +37,13 @@ export default function AlbumsList({
     () =>
       albums.map((album: any, index: number) => (
         <TrackThumbnail
+          id={album.id}
           key={album.id}
           index={index + 1}
           name={album.name}
           artist={album.artists.map((a: any) => a.name).join(", ")}
           imageUrl={album.images[0].url}
+          type="album"
         />
       )),
     [albums]

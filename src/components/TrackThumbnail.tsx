@@ -7,10 +7,11 @@ export default function TrackThumbnail({
   imageUrl,
   index,
   artist,
+  type = "track",
 }: any) {
   const navigate = useNavigate();
   const handleRedirectToArtist = () => {
-    navigate(`/tracks/${id}`, {
+    navigate(`/${type}s/${id}`, {
       state: { trackId: id },
     });
   };

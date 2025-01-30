@@ -44,7 +44,7 @@ export default function AuthenticationDialog() {
           variant="contained"
           color="secondary"
           type="submit"
-          onSubmit={login}
+          onClick={login}
         >
           Login
         </Button>
