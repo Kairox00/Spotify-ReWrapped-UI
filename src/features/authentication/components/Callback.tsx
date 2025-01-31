@@ -5,7 +5,7 @@ export default function Callback() {
   const requestCallback = useCallback(async (code: string, state: string) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/auth/callback`,
+        `${import.meta.env.VITE_API_URL}/auth/callback`,
         {
           params: {
             code,
