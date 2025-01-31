@@ -4,12 +4,15 @@ import axios from "axios";
 export default function Callback() {
   const requestCallback = useCallback(async (code: string, state: string) => {
     try {
-      const response = await axios.get("http://localhost:3000/auth/callback", {
-        params: {
-          code,
-          state,
-        },
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/auth/callback`,
+        {
+          params: {
+            code,
+            state,
+          },
+        }
+      );
       localStorage.setItem(
         "RW_Token",
         JSON.stringify({
