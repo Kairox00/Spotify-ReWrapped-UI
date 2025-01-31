@@ -8,7 +8,8 @@ export default class ApiClient {
       localStorage.removeItem("RW_Token");
       window.location.href = "/";
     }
-    const baseURL = process.env.REACT_APP_API_URL || "http://localhost:3000";
+    const baseURL = process.env.REACT_APP_API_URL;
+    console.log(process.env.REACT_APP_API_URL);
     return axios.create({
       baseURL: baseURL,
       headers: {
