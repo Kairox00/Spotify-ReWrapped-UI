@@ -1,13 +1,14 @@
 import "./App.css";
 import UserTopData from "../features/user-dashboard/components/UserTopData";
 import AuthenticationDialog from "../features/authentication/components/AuthenticationDialog";
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import Callback from "../features/authentication/components/Callback";
 import ArtistPage from "../features/artist-dashboard/components/ArtistPage";
 import ScrollToTop from "../components/ScrollToTop";
 import TrackPage from "../features/track-dashboard/components/TrackPage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import AlbumPage from "../features/album-dashboard/components/AlbumPage";
+import RequireAuth from "../features/authentication/components/RequireAuth";
 
 const theme = createTheme({
   palette: {
@@ -51,10 +52,13 @@ function App() {
         <Routes>
           <Route path="/" element={<AuthenticationDialog />} />
           <Route path="/callback" element={<Callback />} />
-          <Route path="/top" element={<UserTopData />} />
-          <Route path="/artist/:id" element={<ArtistPage />} />
-          <Route path="/tracks/:id" element={<TrackPage />} />
-          <Route path="/albums/:id" element={<AlbumPage />} />
+          <Route element={<RequireAuth />}>
+            <Route path="/top" element={<UserTopData />} />
+            <Route path="/artist/:id" element={<ArtistPage />} />
+            <Route path="/tracks/:id" element={<TrackPage />} />
+            <Route path="/albums/:id" element={<AlbumPage />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
