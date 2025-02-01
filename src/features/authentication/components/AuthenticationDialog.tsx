@@ -1,4 +1,12 @@
-import { Button, Paper, Stack, TextField, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import login from "../api/login";
 import { useEffect, useState } from "react";
 
@@ -16,39 +24,47 @@ export default function AuthenticationDialog() {
       }
     }
   }, []);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    login();
+  };
+
   return (
     <Paper
       sx={{
         display: "flex",
         backgroundColor: theme.palette.primary.main,
         width: "400px",
-        height: "600px",
+        height: "500px",
         justifyContent: "center",
         alignItems: "center",
       }}
     >
-      <Stack spacing={4} justifyContent={"center"}>
-        <TextField
-          required
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          variant="outlined"
-          sx={{
-            backgroundColor: theme.palette.primary.dark,
-            input: { color: theme.palette.primary.contrastText },
-          }}
-          color="secondary"
-        />
-        <Button
-          variant="contained"
-          color="secondary"
-          type="submit"
-          onClick={login}
-        >
-          Login
-        </Button>
-      </Stack>
+      <Box component="form" onSubmit={handleSubmit} width={300}>
+        <Stack spacing={10} justifyContent={"center"}>
+          <Typography variant="h4">Login</Typography>
+          <Stack spacing={4}>
+            <TextField
+              id="email-input"
+              required
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              variant="outlined"
+              placeholder="Enter your Spotify Email"
+              sx={{
+                backgroundColor: theme.palette.primary.dark,
+                input: { color: theme.palette.primary.contrastText },
+              }}
+              color="secondary"
+            />
+            <Button variant="contained" color="secondary" type="submit">
+              Login
+            </Button>
+          </Stack>
+        </Stack>
+      </Box>
     </Paper>
   );
 }
