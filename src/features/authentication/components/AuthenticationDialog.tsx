@@ -1,32 +1,18 @@
-import {
-  Box,
-  Button,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Button, Paper, Stack, Typography, useTheme } from "@mui/material";
 import login from "../api/login";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { getCookie } from "../../user-dashboard/utils/cookiesUtils";
 
 export default function AuthenticationDialog() {
-  const [email, setEmail] = useState("");
   const theme = useTheme();
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("RW_Token") as string);
-    const now = new Date();
+    const token = JSON.parse(getCookie("RW_Token") as string);
     if (token) {
-      if (token.expiry_date > now.getTime()) {
-        window.location.href = "/top";
-      } else {
-        localStorage.removeItem("RW_Token");
-      }
+      window.location.href = "/top";
     }
   }, []);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = () => {
     login();
   };
 
@@ -41,26 +27,16 @@ export default function AuthenticationDialog() {
         alignItems: "center",
       }}
     >
-      <Box component="form" onSubmit={handleSubmit} width={300}>
+      <Box width={300}>
         <Stack spacing={10} justifyContent={"center"}>
           <Typography variant="h4">Login</Typography>
           <Stack spacing={4}>
-            <TextField
-              id="email-input"
-              required
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              variant="outlined"
-              placeholder="Enter your Spotify Email"
-              sx={{
-                backgroundColor: theme.palette.primary.dark,
-                input: { color: theme.palette.primary.contrastText },
-              }}
+            <Button
+              variant="contained"
               color="secondary"
-            />
-            <Button variant="contained" color="secondary" type="submit">
-              Login
+              onClick={handleSubmit}
+            >
+              Login with Spotify
             </Button>
           </Stack>
         </Stack>
