@@ -10,7 +10,7 @@ export default class ApiClient {
       baseURL: baseURL,
       headers: {
         "Content-Type": "application/json",
-        Authorization: access_token,
+        Authorization: `Bearer ${access_token}`,
       },
     });
   }
