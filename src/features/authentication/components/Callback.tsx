@@ -20,5 +20,5 @@ export default function Callback() {
     }
   }, [handleCallback]);
 
-  return <div>Loading...</div>;
+  return <div>Redirecting to ReWrapped...</div>;
 }
