@@ -12,7 +12,7 @@ export default class ApiClient {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${access_token}`,
-        "x-api-key": apiKey,
+        "X-API-Key": apiKey,
       },
     });
   }

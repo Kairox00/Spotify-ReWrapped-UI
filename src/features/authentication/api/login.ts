@@ -10,8 +10,8 @@ export default async function login() {
       setCookie("RW_Token", JSON.stringify(res.data), res.data.expires_in);
       window.location.href = "/top";
     }
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    console.error(error.message);
     throw error;
   }
 }
