@@ -1,7 +1,7 @@
 import { Box, Button, Paper, Stack, Typography, useTheme } from "@mui/material";
-import login from "../api/login";
 import { useEffect, useState } from "react";
 import { getCookie } from "../../user-dashboard/utils/cookiesUtils";
+import login from "../api/login";
 
 export default function AuthenticationDialog() {
   const theme = useTheme();
@@ -13,9 +13,13 @@ export default function AuthenticationDialog() {
     }
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setLoading(true);
-    login();
+    try {
+      await login();
+    } catch (_error: any) {
+      setLoading(false);
+    }
   };
 
   return (
